@@ -10,7 +10,7 @@ screen_width = 800
 screen_height = 400
 
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('The Caveman', ) #Game title and icon go here
+pygame.display.set_caption('The Caveman') #Game title and icon go here
 
 game_icon = pygame.image.load('img/CavemanIcon.png')
 pygame.display.set_icon(game_icon)
