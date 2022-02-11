@@ -19,6 +19,7 @@ FPS = 60
 #Load font(s)
 
 mainFont = pygame.font.SysFont('helvetica', 20)
+pixelfont = pygame.font.Font('fonts/PublicPixel.ttf',20)
 
 #loading images
 
@@ -26,8 +27,8 @@ bg_img = pygame.transform.scale(pygame.image.load('img/new-bg.jpg'), (screen_wid
 caveman = pygame.image.load('img/CavemanNormal.png')
 stache = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
-'''intscore = 0
-score = mainFont.render(f'Score: {intscore}',1,(255,255,255))'''
+intscore = 0
+#score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
 #Change velocity (x and y)
 x_vel = 5
@@ -61,7 +62,8 @@ def mainGame(localstache):
     screen.blit(screentitle,(15,15))
     #screen.blit(score,((screen_width - score.get_width() - 15), 15))
     pygame.display.update()
-#game lose function; score can be added here
+    
+#game lose function; final score can be added here
 
 def gamelose():
     print('You Lose!')
