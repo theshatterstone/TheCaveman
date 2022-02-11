@@ -21,12 +21,16 @@ FPS = 60
 
 bg_img = pygame.transform.scale(pygame.image.load('img/new-bg.jpg'), (screen_width, screen_height) )
 caveman = pygame.image.load('img/CavemanNormal.png')
-#stache = pygame.image.load('img/MainChr.png')
+stache = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
 # score = 
 #Load font(s)
 
 mainFont = pygame.font.SysFont('helvetica', 20)
+
+#Change velocity (x and y)
+x_vel = 5
+y_vel = 5
 
 #main chr - Stache
 
@@ -34,9 +38,14 @@ class chr:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-    
+        self.img = stache
+        self.mask = pygame.mask.from_surface(self.img) # used to detect collisions
     def show(self,window):
-        pygame.draw.rect(window, (0,0,0),(self.x,self.y, 20,20))
+        window.blit(self.img, (self.x,self.y))
+    def get_height(self):
+        return self.img.get_height() 
+    def get_width(self):
+        return self.img.get_width()
 
 stache = chr(170, 230)
 clock = pygame.time.Clock()
@@ -62,9 +71,25 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+    isjump = False
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE]: #jump
-        stache.y -= 15
     
-pygame.quit()
+    if isjump == False and keys[pygame.K_SPACE]:
+        
+        isjump = True
+    if isjump == True:
+        stache.y -= y_vel
+        y_vel -= 1
+        if y_vel < -5:
+            isjump = False
+            y_vel = 5
+    
+    if keys[pygame.K_a] or keys[pygame.K_LEFT] and stache.x - x_vel > 0: # left
+        if stache.x - x_vel > 0:
+            stache.x -= x_vel
+    if keys[pygame.K_d] or keys[pygame.K_RIGHT] and stache.x + stache.get_width > 0: # right
+        if stache.x + stache.get_width() > 0:
+            stache.x += x_vel
+
+        
+    pygame.display.update()
