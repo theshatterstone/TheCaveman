@@ -87,7 +87,7 @@ while run:
     if keys[pygame.K_a] or keys[pygame.K_LEFT] and stache.x - x_vel > 0: # left
         if stache.x - x_vel > 0:
             stache.x -= x_vel
-    if keys[pygame.K_d] or keys[pygame.K_RIGHT] and stache.x + stache.get_width > 0: # right
+    if keys[pygame.K_d] or keys[pygame.K_RIGHT] and stache.x + stache.get_width() > 0: # right
         if stache.x + stache.get_width() > 0:
             stache.x += x_vel
 
