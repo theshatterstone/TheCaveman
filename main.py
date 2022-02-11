@@ -20,7 +20,7 @@ run = True
 while run:
 
     screen.blit(bg_img, (0,0))
-    screen.blit(caveman, (350, 50))
+    screen.blit(caveman, (100, 20))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
