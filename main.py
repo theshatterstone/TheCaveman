@@ -35,7 +35,7 @@ intscore = 0
 #score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
 #Change velocity (x and y)
-x_vel = 4
+x_vel = 5 #change to 4 for game updates/optimisations/improvements
 y_vel = 20
 
 #main chr - Stache
