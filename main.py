@@ -61,7 +61,7 @@ class chr:
 
 
 
-#obstacles classes
+#obstacles classes inheritance problems with obstacle class, so is currently not used
 '''class obstacle:
     def __init__(self,x,y):
         self.x = x
@@ -106,10 +106,10 @@ class SlipFloor:
     def get_width(self):
         return self.img.get_width()
 
-stache = chr(170, 230)
+stache = chr(170, 225)
 top = TopRock(random.randrange(800,850), 20)
-bottom = BottomRock(random.randrange(800,850), 225)
-slip = SlipFloor(random.randrange(800,850), 227)
+bottom = BottomRock(random.randrange(800,850), 230)
+slip = SlipFloor(random.randrange(800,850), 270)
 clock = pygame.time.Clock()
 
 #main function
@@ -124,18 +124,18 @@ def mainGame(localstache,CMcount,localtop,localbottom,localslip):
         screen.blit(caveman2, (0, 225))
     else:
         screen.blit(caveman, (0,225))'''
-    if randnum % 1 == 0:
-        localtop = TopRock.show(top,screen)
-    elif randnum % 3 == 0:
+    #if randnum % 2 == 0:
+    #    localtop = TopRock.show(top,screen)
+    if randnum % 2 == 0:
         localbottom  = BottomRock.show(bottom,screen)
-    elif randnum % 7 == 0:
+    if randnum % 2 == 0:
         localslip = SlipFloor.show(slip,screen)
     if localtop != top:
-        localtop.x -= x_vel
+        top.x -= x_vel
     if localbottom != bottom:
-        localbottom.x -= x_vel
+        bottom.x -= x_vel
     if localslip != slip:
-        localslip.x -= x_vel
+        slip.x -= x_vel
     #The Caveman Label
     screen.blit(screentitle,(15,15))
     #screen.blit(score,((screen_width - score.get_width() - 15), 15))
@@ -169,10 +169,14 @@ while run:
                 isjump = False
                 y_vel = 20
     else: 
-        if stache.y != 230:
-                stache.y = 230
+        if stache.y != 225:
+                stache.y -= y_vel
+                y_vel -= 2
+                time.sleep(0.1)
+                if y_vel < -20:
+                    isjump = False
+                    y_vel = 20
                 pygame.display.update()
-        y_vel = 20
     if keys[pygame.K_a] or keys[pygame.K_LEFT]: # left
         if stache.x - x_vel > 0:
             stache.x -= x_vel
