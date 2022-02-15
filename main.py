@@ -124,8 +124,8 @@ def mainGame(localstache,CMcount,localtop,localbottom,localslip):
         screen.blit(caveman2, (0, 225))
     else:
         screen.blit(caveman, (0,225))'''
-    #if randnum % 2 == 0:
-    #    localtop = TopRock.show(top,screen)
+    if randnum % 2 == 0:
+        localtop = TopRock.show(top,screen)
     if randnum % 2 == 0:
         localbottom  = BottomRock.show(bottom,screen)
     if randnum % 2 == 0:
