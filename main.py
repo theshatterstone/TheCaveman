@@ -107,9 +107,9 @@ class SlipFloor:
         return self.img.get_width()
 
 stache = chr(170, 225)
-top = TopRock(random.randrange(800,850), 20)
-bottom = BottomRock(random.randrange(800,850), 230)
-slip = SlipFloor(random.randrange(800,850), 270)
+top = TopRock(random.randrange(600,650), 20)
+bottom = BottomRock(random.randrange(600,650), 230)
+slip = SlipFloor(random.randrange(600,650), 270)
 clock = pygame.time.Clock()
 
 #main function
@@ -124,17 +124,17 @@ def mainGame(localstache,CMcount,localtop,localbottom,localslip):
         screen.blit(caveman2, (0, 225))
     else:
         screen.blit(caveman, (0,225))'''
-    if randnum % 2 == 0:
-        localtop = TopRock.show(top,screen)
-    if randnum % 2 == 0:
-        localbottom  = BottomRock.show(bottom,screen)
-    if randnum % 2 == 0:
-        localslip = SlipFloor.show(slip,screen)
-    if localtop != top:
+    #if randnum % 2 == 0:
+    localtop = TopRock.show(top,screen)
+    #if randnum % 3 == 0:
+    localbottom  = BottomRock.show(bottom,screen)
+    #if randnum % 7 == 0:
+    localslip = SlipFloor.show(slip,screen)
+    if top.x != 0:
         top.x -= x_vel
-    if localbottom != bottom:
+    if bottom.x != 0:
         bottom.x -= x_vel
-    if localslip != slip:
+    if slip.x != 0:
         slip.x -= x_vel
     #The Caveman Label
     screen.blit(screentitle,(15,15))
