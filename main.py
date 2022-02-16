@@ -107,9 +107,9 @@ class SlipFloor:
         return self.img.get_width()
 
 stache = chr(170, 225)
-top = TopRock(random.randrange(600,650), 20)
-bottom = BottomRock(random.randrange(600,650), 230)
-slip = SlipFloor(random.randrange(600,650), 270)
+top = TopRock(random.randint(600,650), 20)
+bottom = BottomRock(random.randint(600,650), 230)
+slip = SlipFloor(random.randint(600,650), 210)
 clock = pygame.time.Clock()
 
 #main function
@@ -117,25 +117,28 @@ clock = pygame.time.Clock()
 def mainGame(localstache,CMcount,localtop,localbottom,localslip):
     #Background image
     screen.blit(bg_img, (0,0))
-    screen.blit(caveman2, (0, 225))
+    screen.blit(caveman2, (-30, 225))
     localstache = chr.show(stache,screen)
-    randnum = random.randint(1,100)
+    num = 0
     '''if CMcount % 60 == 0:
         screen.blit(caveman2, (0, 225))
     else:
         screen.blit(caveman, (0,225))'''
-    #if randnum % 2 == 0:
-    localtop = TopRock.show(top,screen)
-    #if randnum % 3 == 0:
-    localbottom  = BottomRock.show(bottom,screen)
-    #if randnum % 7 == 0:
-    localslip = SlipFloor.show(slip,screen)
+    if num % 20000 == 0:
+        TopRock.show(top,screen)
+    elif num % 1 == 0:
+        BottomRock.show(bottom,screen)
+    if num % 7 == 0:
+        SlipFloor.show(slip,screen)
     if top.x != 0:
         top.x -= x_vel
     if bottom.x != 0:
         bottom.x -= x_vel
     if slip.x != 0:
         slip.x -= x_vel
+    num += 1
+    if keys[pygame.K_SPACE] == False and stache.y == 225:
+        time.sleep(0.05)
     #The Caveman Label
     screen.blit(screentitle,(15,15))
     #screen.blit(score,((screen_width - score.get_width() - 15), 15))
@@ -150,11 +153,7 @@ def gamelose():
 run = True
 while run:
     clock.tick(FPS)
-    mainGame(stache,cavemanCount,top,bottom,slip)
-    cavemanCount += 1
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
-            run = False
+    
     #Controls
     keys = pygame.key.get_pressed()
     isjump = False 
@@ -164,7 +163,7 @@ while run:
         if isjump == True:
             stache.y -= y_vel
             y_vel -= 2
-            time.sleep(0.1)
+            time.sleep(0.05)
             if y_vel < -20:
                 isjump = False
                 y_vel = 20
@@ -172,11 +171,12 @@ while run:
         if stache.y != 225:
                 stache.y -= y_vel
                 y_vel -= 2
-                time.sleep(0.1)
+                time.sleep(0.05)
                 if y_vel < -20:
                     isjump = False
                     y_vel = 20
                 pygame.display.update()
+    
     if keys[pygame.K_a] or keys[pygame.K_LEFT]: # left
         if stache.x - x_vel > 0:
             stache.x -= x_vel
@@ -185,8 +185,18 @@ while run:
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]: # right
         if stache.x + stache.get_width() < screen_width:
             stache.x += x_vel
+    
+    if keys[pygame.K_s] or keys[pygame.K_DOWN]: # right
+        if stache.x + stache.get_width() < screen_width:
+            stache.y = 225
+            y_vel = 20
 
-        
+    mainGame(stache,cavemanCount,top,bottom,slip)
+    cavemanCount += 1
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: 
+            run = False
+
     pygame.display.update()
 
 pygame.quit()
