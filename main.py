@@ -20,6 +20,7 @@ pygame.display.set_icon(game_icon)
 #Change FPS
 
 FPS = 60
+CMshowFPS = 0
 
 #Load font(s)
 
@@ -38,11 +39,11 @@ slipfloorimg = pygame.image.load('img/water-1(x10)-new.png')
 stachepic = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
 losetitle = pygame.image.load('img/LoseTitle.png')
-intscore = 0
+#intscore = 0
 #score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
 #Change velocity (x and y)
-x_vel = 10 #change to 4 for game updates/optimisations/improvements
+x_vel = 10 
 y_vel = 23
 
 #main chr - Stache
@@ -106,6 +107,8 @@ class SlipFloor:
         return self.img.get_height() 
     def get_width(self):
         return self.img.get_width()
+
+#other important variable declarations
 toprand = random.randint(800,850)
 botrand = random.randint(800,850)
 sliprand = random.randint(800,850) 
@@ -119,17 +122,20 @@ isTop = False
 isBot = False
 isSlip = False 
 lose = False
+Cavemanshow = False
 #main function
 
-def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip):
+def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow):
     #Background image
     screen.blit(bg_img, (0,0))
     #screen.blit(caveman2, (-30, 225))
     localstache = chr.show(stache,screen)
-    if CMcount % 60 > 30:
-        screen.blit(caveman2, (-30, 225))
-    else:
-        screen.blit(caveman, (-30,225))
+    if Cavemanshow == True:
+        if CMcount % 60 > 30:
+            screen.blit(caveman2, (-30, 225))
+        else:
+            screen.blit(caveman, (-30,225))
+
     if (num % 90 == 0 or isTop) and isBot == False and isSlip == False:
         if top.x > -55:
             TopRock.show(top,screen)
@@ -167,6 +173,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         time.sleep(0.1)
     #The Caveman Label
     screen.blit(screentitle,(15,15))
+    #intscore +=1
     #screen.blit(score,((screen_width - score.get_width() - 15), 15))
     pygame.display.update()
     return num, isTop, isBot, isSlip
@@ -222,7 +229,7 @@ while run:
                 stache.y = 225
                 y_vel = 23
 
-        num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip)
+        num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,)
         if isTop or isBot or isSlip:
             topoffset = (stache.x - top.x), (stache.y - top.y)
             if top.mask.overlap(stache.mask, topoffset):
@@ -232,13 +239,24 @@ while run:
             if bottom.mask.overlap(stache.mask, botoffset):
                 lose = True
             slipoffset = (stache.x - slip.x), (stache.y - slip.y)
-            if slip.mask.overlap(stache.mask, slipoffset):
+            if slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == False:
+                Cavemanshow = True
+            elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > 120:
                 lose = True
-
-        print(f'num = {num}')
+            if Cavemanshow == True:
+                if CMshowFPS < 1800:
+                    CMshowFPS += 1
+                else:
+                    CMshowFPS = 0
+                    Cavemanshow = False
+            
+        #debugging
+        '''print(f'num = {num}')
         print(f'isTop = {isTop}')
         print(f'isBot = {isBot}')
-        print(f'isSlip = {isSlip}')
+        print(f'isSlip = {isSlip}')'''
+        print(f'Cavemanshow = {Cavemanshow}')
+
         cavemanCount += 1
     else:
         gamelose()
