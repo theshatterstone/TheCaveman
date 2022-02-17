@@ -1,3 +1,6 @@
-add special VARs to the obstacle if statements in main() so that the boolean values in those Vars can be used to load and keep the obstacles on screen; return multiple values in tuples, format below:
+add special VARs to the obstacle if statements in main() so that the boolean values in those Vars can be used to 
+load and keep the obstacles on screen; return multiple values in tuples, format below:
 
 num, isTop, , isBot, isSlip = main()
+
+!!!top bot and slip x coords need to be reset after use!!!
