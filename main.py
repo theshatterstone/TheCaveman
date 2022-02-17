@@ -229,7 +229,7 @@ while run:
                 stache.y = 225
                 y_vel = 23
 
-        num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,)
+        num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow)
         if isTop or isBot or isSlip:
             topoffset = (stache.x - top.x), (stache.y - top.y)
             if top.mask.overlap(stache.mask, topoffset):
@@ -244,7 +244,7 @@ while run:
             elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > 120:
                 lose = True
             if Cavemanshow == True:
-                if CMshowFPS < 1800:
+                if CMshowFPS < 900:
                     CMshowFPS += 1
                 else:
                     CMshowFPS = 0
@@ -256,6 +256,7 @@ while run:
         print(f'isBot = {isBot}')
         print(f'isSlip = {isSlip}')'''
         print(f'Cavemanshow = {Cavemanshow}')
+        print(f'CMshowFPS = {CMshowFPS}')
 
         cavemanCount += 1
     else:
