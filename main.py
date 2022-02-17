@@ -26,6 +26,7 @@ CMshowFPS = 0
 
 mainFont = pygame.font.SysFont('helvetica', 20)
 pixelfont = pygame.font.Font('fonts/PublicPixel.ttf',20)
+pixelfont_small = pygame.font.Font('fonts/PublicPixel.ttf',15)
 
 #loading images
 
@@ -109,6 +110,7 @@ class SlipFloor:
         return self.img.get_width()
 
 #other important variable declarations
+keys = pygame.key.get_pressed()
 toprand = random.randint(800,850)
 botrand = random.randint(800,850)
 sliprand = random.randint(800,850) 
@@ -123,6 +125,17 @@ isBot = False
 isSlip = False 
 lose = False
 Cavemanshow = False
+startgame = False
+
+#start function
+def start():
+    screen.blit(bg_img, (0,0))
+    screen.blit(screentitle, (308,150))
+    startText = pixelfont_small.render('Press Enter to Start',1, (0,0,0))
+    screen.blit(startText,(250,200))
+        
+    
+    
 #main function
 
 def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow):
@@ -134,7 +147,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         if CMcount % 60 > 30:
             screen.blit(caveman2, (-30, 225))
         else:
-            screen.blit(caveman, (-30,225))
+            screen.blit(caveman2, (-30,230))
 
     if (num % 90 == 0 or isTop) and isBot == False and isSlip == False:
         if top.x > -55:
@@ -183,84 +196,91 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
 def gamelose():
         screen.blit(bg_img, (0,0))
         screen.blit(losetitle,(340,190))
-        #finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
-        #screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))
+        '''Enter = pixelfont_small.render('Press Enter to Restart',1,(0,0,0))
+        screen.blit(Enter,(235,220))'''
+        '''finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
+        screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))'''
         pygame.display.update()
     
 #run infinite loop
 run = True
 while run:
     clock.tick(FPS)
-    if lose == False:
-        #Controls
-        keys = pygame.key.get_pressed()
-        isjump = False 
-        if keys[pygame.K_SPACE] == True: # jump
-            if isjump == False :
-                isjump = True
-            if isjump == True:
-                stache.y -= y_vel
-                y_vel -= 2
-                time.sleep(0.1)
-                if y_vel < -23:
-                    isjump = False
-                    y_vel = 23
-        else: 
-            if stache.y != 225:
+
+    start()
+    if keys[pygame.K_KP_ENTER]:
+        startgame = True
+        print(f'startgame = {startgame}')
+    if startgame == True:
+        if lose == False:
+            #Controls
+            isjump = False 
+            if keys[pygame.K_SPACE] == True: # jump
+                if isjump == False :
+                    isjump = True
+                if isjump == True:
                     stache.y -= y_vel
                     y_vel -= 2
                     time.sleep(0.1)
                     if y_vel < -23:
                         isjump = False
                         y_vel = 23
-                    pygame.display.update()
-        
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]: # left
-            if stache.x - x_vel > 0:
-                stache.x -= x_vel
-            else:
-                lose = True
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]: # right
-            if stache.x + stache.get_width() < screen_width:
-                stache.x += x_vel
-        
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]: # right
-            if stache.x + stache.get_width() < screen_width:
-                stache.y = 225
-                y_vel = 23
-
-        num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow)
-        if isTop or isBot or isSlip:
-            topoffset = (stache.x - top.x), (stache.y - top.y)
-            if top.mask.overlap(stache.mask, topoffset):
-                lose = True
-
-            botoffset = (stache.x - bottom.x), (stache.y - bottom.y)
-            if bottom.mask.overlap(stache.mask, botoffset):
-                lose = True
-            slipoffset = (stache.x - slip.x), (stache.y - slip.y)
-            if slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == False:
-                Cavemanshow = True
-            elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > 120:
-                lose = True
-            if Cavemanshow == True:
-                if CMshowFPS < 900:
-                    CMshowFPS += 1
-                else:
-                    CMshowFPS = 0
-                    Cavemanshow = False
+            else: 
+                if stache.y != 225:
+                        stache.y -= y_vel
+                        y_vel -= 2
+                        time.sleep(0.1)
+                        if y_vel < -23:
+                            isjump = False
+                            y_vel = 23
+                        pygame.display.update()
             
-        #debugging
-        '''print(f'num = {num}')
-        print(f'isTop = {isTop}')
-        print(f'isBot = {isBot}')
-        print(f'isSlip = {isSlip}')'''
-        print(f'Cavemanshow = {Cavemanshow}')
-        print(f'CMshowFPS = {CMshowFPS}')
+            if keys[pygame.K_a] or keys[pygame.K_LEFT]: # left
+                if stache.x - x_vel > 0:
+                    stache.x -= x_vel
+                else:
+                    lose = True
+            if keys[pygame.K_d] or keys[pygame.K_RIGHT]: # right
+                if stache.x + stache.get_width() < screen_width:
+                    stache.x += x_vel
+            
+            if keys[pygame.K_s] or keys[pygame.K_DOWN]: # right
+                if stache.x + stache.get_width() < screen_width:
+                    stache.y = 225
+                    y_vel = 23
 
-        cavemanCount += 1
-    else:
-        gamelose()
+            #num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow)
+            if isTop or isBot or isSlip:
+                topoffset = (stache.x - top.x), (stache.y - top.y)
+                if top.mask.overlap(stache.mask, topoffset):
+                    lose = True
+
+                botoffset = (stache.x - bottom.x), (stache.y - bottom.y)
+                if bottom.mask.overlap(stache.mask, botoffset):
+                    lose = True
+                slipoffset = (stache.x - slip.x), (stache.y - slip.y)
+                if slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == False:
+                    Cavemanshow = True
+                elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > 120:
+                    lose = True
+                if Cavemanshow == True:
+                    if CMshowFPS < 900:
+                        CMshowFPS += 1
+                    else:
+                        CMshowFPS = 0
+                        Cavemanshow = False
+                
+            #debugging
+            '''print(f'num = {num}')
+            print(f'isTop = {isTop}')
+            print(f'isBot = {isBot}')
+            print(f'isSlip = {isSlip}')'''
+            print(f'Cavemanshow = {Cavemanshow}')
+            print(f'CMshowFPS = {CMshowFPS}')
+
+            cavemanCount += 1
+        else:
+            gamelose()
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             run = False
