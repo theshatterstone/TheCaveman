@@ -40,8 +40,8 @@ slipfloorimg = pygame.image.load('img/water-1(x10)-new.png')
 stachepic = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
 losetitle = pygame.image.load('img/LoseTitle.png')
-#intscore = 0
-#score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
+intscore = 0
+score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
 #Change velocity (x and y)
 x_vel = 10 
@@ -110,7 +110,6 @@ class SlipFloor:
         return self.img.get_width()
 
 #other important variable declarations
-keys = pygame.key.get_pressed()
 toprand = random.randint(800,850)
 botrand = random.randint(800,850)
 sliprand = random.randint(800,850) 
@@ -125,7 +124,7 @@ isBot = False
 isSlip = False 
 lose = False
 Cavemanshow = False
-startgame = False
+startgame = True
 
 #start function
 def start():
@@ -138,7 +137,7 @@ def start():
     
 #main function
 
-def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow):
+def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow,intscore):
     #Background image
     screen.blit(bg_img, (0,0))
     #screen.blit(caveman2, (-30, 225))
@@ -186,10 +185,10 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         time.sleep(0.1)
     #The Caveman Label
     screen.blit(screentitle,(15,15))
-    #intscore +=1
-    #screen.blit(score,((screen_width - score.get_width() - 15), 15))
+    intscore +=1
+    screen.blit(score,((screen_width - score.get_width() - 15), 15))
     pygame.display.update()
-    return num, isTop, isBot, isSlip
+    return num, isTop, isBot, isSlip,intscore
 
 #game lose function; final score can be added here
 
@@ -198,17 +197,17 @@ def gamelose():
         screen.blit(losetitle,(340,190))
         '''Enter = pixelfont_small.render('Press Enter to Restart',1,(0,0,0))
         screen.blit(Enter,(235,220))'''
-        '''finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
-        screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))'''
+        finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
+        screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))
         pygame.display.update()
     
 #run infinite loop
 run = True
 while run:
     clock.tick(FPS)
-
-    start()
-    if keys[pygame.K_KP_ENTER]:
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_KP_ENTER] == False:
+        start()
         startgame = True
         print(f'startgame = {startgame}')
     if startgame == True:
@@ -249,7 +248,7 @@ while run:
                     stache.y = 225
                     y_vel = 23
 
-            #num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow)
+            num, isTop, isBot, isSlip, intscore = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,intscore)
             if isTop or isBot or isSlip:
                 topoffset = (stache.x - top.x), (stache.y - top.y)
                 if top.mask.overlap(stache.mask, topoffset):
