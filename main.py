@@ -19,7 +19,7 @@ pygame.display.set_icon(game_icon)
 
 #Change FPS
 
-FPS = 60
+FPS = 120
 CMshowFPS = 0
 
 #Load font(s)
@@ -126,6 +126,10 @@ lose = False
 Cavemanshow = False
 startgame = False
 
+#delaying function
+def delay():
+    time.sleep(0.01)
+
 #start function
 def start():
     screen.blit(bg_img, (0,0))
@@ -183,7 +187,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         slip.x -= x_vel'''
     num += 1
     if keys[pygame.K_SPACE] == False and stache.y == 225:
-        time.sleep(0.1)
+        delay()
     #The Caveman Label
     screen.blit(screentitle,(15,15))
     #intscore +=1
@@ -224,7 +228,7 @@ while run:
                 if isjump == True:
                     stache.y -= y_vel
                     y_vel -= 2
-                    time.sleep(0.1)
+                    delay()
                     if y_vel < -23:
                         isjump = False
                         y_vel = 23
@@ -232,7 +236,7 @@ while run:
                 if stache.y != 225:
                         stache.y -= y_vel
                         y_vel -= 2
-                        time.sleep(0.1)
+                        delay()
                         if y_vel < -23:
                             isjump = False
                             y_vel = 23
