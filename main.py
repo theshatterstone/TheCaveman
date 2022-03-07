@@ -133,7 +133,7 @@ isSlip = False
 lose = False
 Cavemanshow = False
 startgame = False
-
+isjump = False 
 #delaying function
 def delay():
     time.sleep(0.01)
@@ -229,9 +229,8 @@ while run:
     if startgame == True:
         if lose == False:
             #Controls
-            isjump = False 
-            if keys[pygame.K_SPACE] == True: # jump
-                if isjump == False :
+            if isjump == True: # jump
+                if isjump == False:
                     isjump = True
                 if isjump == True:
                     stache.y -= y_vel
@@ -255,7 +254,7 @@ while run:
                     stache.x -= x_vel
                 else:
                     lose = True
-            if keys[pygame.K_d] or keys[pygame.K_RIGHT]: # right
+            if movement == "Right": # right
                 if stache.x + stache.get_width() < screen_width:
                     stache.x += x_vel
             
@@ -300,8 +299,11 @@ while run:
         if event.type == pygame.QUIT: 
             run = False
         if event.type == pygame.JOYBUTTONDOWN:
-            if event.button == [0]:
-                print("Correct") 
+            if event.button == 0:
+                movement = "Right"
+                print("Correct")
+            if event.button == 2:
+                isjump = True
 
 
 
