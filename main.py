@@ -16,11 +16,19 @@ pygame.display.set_caption('The Caveman') #Game title and icon go here
 game_icon = pygame.image.load('img/CavemanIcon.png')
 pygame.display.set_icon(game_icon)
 
+joysticks = []
+for i in range(pygame.joystick.get_count()):
+    joysticks.append(pygame.joystick.Joystick(i))
+
+for joystick in joysticks:
+    joystick.init()
 
 #Change FPS
 
 FPS = 120
 CMshowFPS = 0
+movement = "Steady"
+
 
 #Load font(s)
 
@@ -134,7 +142,7 @@ def delay():
 def start():
     screen.blit(bg_img, (0,0))
     screen.blit(screentitle, (308,150))
-    startText = pixelfont_small.render('Press Enter to Start',1, (0,0,0))
+    startText = pixelfont_small.render('Press Space to Start',1, (0,0,0))
     screen.blit(startText,(250,200))
     
         
@@ -281,9 +289,9 @@ while run:
             '''print(f'num = {num}')
             print(f'isTop = {isTop}')
             print(f'isBot = {isBot}')
-            print(f'isSlip = {isSlip}')'''
+            print(f'isSlip = {isSlip}')
             print(f'Cavemanshow = {Cavemanshow}')
-            print(f'CMshowFPS = {CMshowFPS}')
+            print(f'CMshowFPS = {CMshowFPS}')'''
 
             cavemanCount += 1
         else:
@@ -291,6 +299,11 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             run = False
+        if event.type == pygame.JOYBUTTONDOWN:
+            if event.button == [0]:
+                print("Correct") 
+
+
 
     pygame.display.update()
 
