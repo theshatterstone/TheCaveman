@@ -48,8 +48,8 @@ slipfloorimg = pygame.image.load('img/water-1(x10)-new.png')
 stachepic = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
 losetitle = pygame.image.load('img/LoseTitle.png')
-#intscore = 0
-#score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
+intscore = 0
+score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
 #Change velocity (x and y)
 x_vel = 10 
@@ -132,11 +132,13 @@ isBot = False
 isSlip = False 
 lose = False
 Cavemanshow = False
-startgame = False
 isjump = False 
+startgame = False
+multiplier = 1
 #delaying function
-def delay():
-    time.sleep(0.01)
+def delay(multiplier):
+    speed = 0.1/multiplier
+    time.sleep(speed)
 
 #start function
 def start():
@@ -150,10 +152,9 @@ def start():
     
 #main function
 
-def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow): #add intscore
+def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow,intscore,multiplier): #add intscore
     #Background image
     screen.blit(bg_img, (0,0))
-    #screen.blit(caveman2, (-30, 225))
     localstache = chr.show(stache,screen)
     if Cavemanshow == True:
         if CMcount % 60 > 30:
@@ -195,13 +196,14 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         slip.x -= x_vel'''
     num += 1
     if keys[pygame.K_SPACE] == False and stache.y == 225:
-        delay()
+        delay(multiplier)
     #The Caveman Label
     screen.blit(screentitle,(15,15))
-    #intscore +=1
-    #screen.blit(score,((screen_width - score.get_width() - 15), 15))
+    intscore +=1
+    score = pixelfont.render(f'Score: {intscore}',1,(255,255,255)) 
+    screen.blit(score,((screen_width - score.get_width() - 15), 15))
     pygame.display.update()
-    return num, isTop, isBot, isSlip #,intscore
+    return num, isTop, isBot, isSlip,intscore,multiplier
 
 #game lose function; final score can be added here
 
@@ -213,6 +215,14 @@ def gamelose():
         #finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
         #screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))
         pygame.display.update()
+        if keys[pygame.K_SPACE]:
+            print('space working')
+            x = False
+        else: 
+            x = True
+        return x
+
+
     
 #run infinite loop
 run = True
@@ -263,7 +273,8 @@ while run:
                     stache.y = 225
                     y_vel = 23
 
-            num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow) #add intscore as both returned values and var
+            num, isTop, isBot, isSlip,intscore,multiplier= mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,intscore, multiplier) #add intscore as both returned values and var
+            print(intscore)
             if isTop or isBot or isSlip:
                 topoffset = (stache.x - top.x), (stache.y - top.y)
                 if top.mask.overlap(stache.mask, topoffset):
@@ -293,8 +304,15 @@ while run:
             print(f'CMshowFPS = {CMshowFPS}')'''
 
             cavemanCount += 1
-        else:
-            gamelose()
+        elif lose == True:
+            lose = gamelose()
+            intscore = 0
+            isTop = False
+            isBot = False
+            isSlip = False 
+            Cavemanshow = False
+            isjump = False 
+            multiplier = 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             run = False
@@ -304,7 +322,9 @@ while run:
                 print("Correct")
             if event.button == 2:
                 isjump = True
-
+    if intscore % 100 == 0: 
+        multiplier += 1
+    print(lose)
 
 
     pygame.display.update()
