@@ -28,7 +28,7 @@ for joystick in joysticks:
 FPS = 120
 CMshowFPS = 0
 movement = "Steady"
-
+num = 0.1  
 
 #Load font(s)
 
@@ -132,7 +132,6 @@ isBot = False
 isSlip = False 
 lose = False
 Cavemanshow = False
-isjump = False 
 startgame = False
 multiplier = 1
 #delaying function
@@ -152,7 +151,7 @@ def start():
     
 #main function
 
-def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow,intscore,multiplier): #add intscore
+def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow): #add intscore
     #Background image
     screen.blit(bg_img, (0,0))
     localstache = chr.show(stache,screen)
@@ -196,8 +195,6 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         slip.x -= x_vel'''
     num += 1
     if keys[pygame.K_SPACE] == False and stache.y == 225:
-        delay(multiplier)
-    #The Caveman Label
     screen.blit(screentitle,(15,15))
     intscore +=1
     score = pixelfont.render(f'Score: {intscore}',1,(255,255,255)) 
@@ -273,8 +270,7 @@ while run:
                     stache.y = 225
                     y_vel = 23
 
-            num, isTop, isBot, isSlip,intscore,multiplier= mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,intscore, multiplier) #add intscore as both returned values and var
-            print(intscore)
+            num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow) #add intscore as both returned values and var
             if isTop or isBot or isSlip:
                 topoffset = (stache.x - top.x), (stache.y - top.y)
                 if top.mask.overlap(stache.mask, topoffset):
@@ -304,15 +300,8 @@ while run:
             print(f'CMshowFPS = {CMshowFPS}')'''
 
             cavemanCount += 1
-        elif lose == True:
-            lose = gamelose()
-            intscore = 0
-            isTop = False
-            isBot = False
-            isSlip = False 
-            Cavemanshow = False
-            isjump = False 
-            multiplier = 1
+        else:
+            gamelose()
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             run = False
@@ -322,9 +311,7 @@ while run:
                 print("Correct")
             if event.button == 2:
                 isjump = True
-    if intscore % 100 == 0: 
-        multiplier += 1
-    print(lose)
+
 
 
     pygame.display.update()
