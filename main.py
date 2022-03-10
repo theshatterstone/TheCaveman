@@ -13,6 +13,7 @@ screen_height = 400
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('The Caveman') #Game title and icon go here
 
+
 game_icon = pygame.image.load('img/CavemanIcon.png')
 pygame.display.set_icon(game_icon)
 
@@ -130,6 +131,7 @@ clock = pygame.time.Clock()
 isTop = False
 isBot = False
 isSlip = False 
+isjump = False
 lose = False
 Cavemanshow = False
 startgame = False
@@ -151,7 +153,7 @@ def start():
     
 #main function
 
-def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow): #add intscore
+def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,isSlip,Cavemanshow,intscore,multiplier): #add intscore
     #Background image
     screen.blit(bg_img, (0,0))
     localstache = chr.show(stache,screen)
@@ -195,6 +197,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
         slip.x -= x_vel'''
     num += 1
     if keys[pygame.K_SPACE] == False and stache.y == 225:
+        delay(multiplier)
     screen.blit(screentitle,(15,15))
     intscore +=1
     score = pixelfont.render(f'Score: {intscore}',1,(255,255,255)) 
@@ -270,7 +273,7 @@ while run:
                     stache.y = 225
                     y_vel = 23
 
-            num, isTop, isBot, isSlip = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow) #add intscore as both returned values and var
+            num, isTop, isBot, isSlip, intscore, multiplier = mainGame(num,stache,cavemanCount,top,bottom,slip,isTop,isBot,isSlip,Cavemanshow,intscore,multiplier) #add intscore as both returned values and var
             if isTop or isBot or isSlip:
                 topoffset = (stache.x - top.x), (stache.y - top.y)
                 if top.mask.overlap(stache.mask, topoffset):
