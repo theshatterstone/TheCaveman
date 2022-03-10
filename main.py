@@ -210,17 +210,11 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
 def gamelose():
         screen.blit(bg_img, (0,0))
         screen.blit(losetitle,(340,190))
-        '''Enter = pixelfont_small.render('Press Enter to Restart',1,(0,0,0))
-        screen.blit(Enter,(235,220))'''
-        #finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
-        #screen.blit(finalscore,((screen_width - score.get_width() - 15), 15))
+        space = pixelfont_small.render('Press Space to Restart',1,(0,0,0))
+        screen.blit(space,(235,220))
+        finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
+        screen.blit(finalscore,((screen_width - score.get_width() - 200), 15))
         pygame.display.update()
-        if keys[pygame.K_SPACE]:
-            print('space working')
-            x = False
-        else: 
-            x = True
-        return x
 
 
     
@@ -305,6 +299,18 @@ while run:
             cavemanCount += 1
         else:
             gamelose()
+            isTop = False
+            isBot = False
+            isSlip = False 
+            isjump = False
+            Cavemanshow = False
+            multiplier = 1
+            if keys[pygame.K_SPACE]:
+                print('space working')
+                lose = False
+                intscore = 0
+            else: 
+                lose = True
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             run = False
