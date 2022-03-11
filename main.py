@@ -196,7 +196,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
     if slip.x != -125 and isSlip:
         slip.x -= x_vel'''
     num += 1
-    if keys[pygame.K_SPACE] == False and stache.y == 225:
+    if keys[pygame.K_SPACE] == False and stache.y == 225:  #space key here needs to be changed to joystick controls
         delay(multiplier)
     screen.blit(screentitle,(15,15))
     intscore +=1
@@ -239,7 +239,7 @@ while run:
                 if isjump == True:
                     stache.y -= y_vel
                     y_vel -= 2
-                    delay()
+                    delay(multiplier)
                     if y_vel < -23:
                         isjump = False
                         y_vel = 23
@@ -247,7 +247,7 @@ while run:
                 if stache.y != 225:
                         stache.y -= y_vel
                         y_vel -= 2
-                        delay()
+                        delay(multiplier)
                         if y_vel < -23:
                             isjump = False
                             y_vel = 23
@@ -305,6 +305,9 @@ while run:
             isjump = False
             Cavemanshow = False
             multiplier = 1
+            top.x = toprand
+            bottom.x = botrand
+            slip.x = sliprand
             if keys[pygame.K_SPACE]:
                 print('space working')
                 lose = False
