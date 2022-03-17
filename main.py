@@ -49,6 +49,7 @@ slipfloorimg = pygame.image.load('img/water-1(x10)-new.png')
 stachepic = pygame.image.load('img/MainChr.png')
 screentitle = pygame.image.load('img/TitleText.png')
 losetitle = pygame.image.load('img/LoseTitle.png')
+wintitle = pygame.image.load('img/WinTitle.png')
 intscore = 0
 score = pixelfont.render(f'Score: {intscore}',1,(255,255,255))
 
@@ -132,10 +133,15 @@ isTop = False
 isBot = False
 isSlip = False 
 isjump = False
+win = False
 lose = False
 Cavemanshow = False
 startgame = False
-multiplier = 1
+multiplier = 5
+d_dev = False
+e_dev = False
+v_dev = False
+
 #delaying function
 def delay(multiplier):
     speed = 0.1/multiplier
@@ -176,7 +182,6 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
             BottomRock.show(bottom,screen)
             bottom.x -= x_vel
             isBot = True
-            print(f'bottom.x = {bottom.x}')
         else:
             isBot = False
             bottom.x = random.randint(800,850)
@@ -205,7 +210,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
     pygame.display.update()
     return num, isTop, isBot, isSlip,intscore,multiplier
 
-#game lose function; final score can be added here
+#game lose function
 
 def gamelose():
         screen.blit(bg_img, (0,0))
@@ -216,7 +221,14 @@ def gamelose():
         screen.blit(finalscore,((screen_width - score.get_width() - 200), 15))
         pygame.display.update()
 
-
+def gamewin():
+    screen.blit(bg_img, (0,0))
+    screen.blit(wintitle,(340,190))
+    space = pixelfont_small.render('Press Space to Restart',1,(0,0,0))
+    screen.blit(space,(235,220))
+    finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
+    screen.blit(finalscore,((screen_width - score.get_width() - 200), 15))
+    pygame.display.update()
     
 #run infinite loop
 run = True
@@ -229,10 +241,21 @@ while run:
         if keys[pygame.K_SPACE] ==  True:
             print("Test")
             startgame = True
-
+        if keys[pygame.K_d]:
+            d_dev = True
+        if keys[pygame.K_e]:
+            e_dev = True
+        if keys[pygame.K_v]:
+            v_dev = True
+        if d_dev == True and e_dev == True and v_dev == True:
+            startgame = True
+            win = True
+            intscore = 5001
     if startgame == True:
-        if lose == False:
+        if lose == False and win == False:
             #Controls
+            if keys[pygame.K_SPACE] ==  True:
+                isjump = True
             if isjump == True: # jump
                 if isjump == False:
                     isjump = True
@@ -258,7 +281,7 @@ while run:
                     stache.x -= x_vel
                 else:
                     lose = True
-            if movement == "Right": # right
+            if movement == "Right" or keys[pygame.K_d]: # right
                 if stache.x + stache.get_width() < screen_width:
                     stache.x += x_vel
             
@@ -287,6 +310,12 @@ while run:
                     else:
                         CMshowFPS = 0
                         Cavemanshow = False
+
+            if intscore % 300 == 0 and intscore < 2400:
+                multiplier += 0.5
+            elif intscore == 5000:
+                win =True
+
                 
             #debugging
             '''print(f'num = {num}')
@@ -297,6 +326,23 @@ while run:
             print(f'CMshowFPS = {CMshowFPS}')'''
 
             cavemanCount += 1
+        elif win == True:
+            gamewin()
+            isTop = False
+            isBot = False
+            isSlip = False 
+            isjump = False
+            Cavemanshow = False
+            multiplier = 5
+            top.x = toprand
+            bottom.x = botrand
+            slip.x = sliprand
+            if keys[pygame.K_SPACE]:
+                print('space working')
+                win = False
+                intscore = 0
+            else: 
+                win = True
         else:
             gamelose()
             isTop = False
@@ -304,7 +350,7 @@ while run:
             isSlip = False 
             isjump = False
             Cavemanshow = False
-            multiplier = 1
+            multiplier = 5
             top.x = toprand
             bottom.x = botrand
             slip.x = sliprand
