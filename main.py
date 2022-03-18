@@ -1,3 +1,4 @@
+from pickle import FALSE
 import random
 import time
 #setting up pygame
@@ -131,6 +132,7 @@ num = random.randint(1,100)
 clock = pygame.time.Clock()
 cmshowfpsmultiplier = 20
 cmshowfpsmultiplier_temp = cmshowfpsmultiplier 
+endless = False
 isTop = False
 isBot = False
 isSlip = False 
@@ -154,7 +156,9 @@ def start():
     screen.blit(bg_img, (0,0))
     screen.blit(screentitle, (308,150))
     startText = pixelfont_small.render('Press Space to Start',1, (0,0,0))
+    startText_endless = pixelfont_small.render('Press E for Endless Mode',1, (0,0,0))
     screen.blit(startText,(250,200))
+    screen.blit(startText_endless,(220,230))
     
         
     
@@ -240,6 +244,10 @@ while run:
     
     if startgame == False:
         start()
+        if keys[pygame.K_e] == True:
+            print('endless mode')
+            endless = True
+            startgame = True
         if keys[pygame.K_SPACE] ==  True:
             print("Test")
             startgame = True
@@ -314,11 +322,16 @@ while run:
                         CMshowFPS = 0
                         Cavemanshow = False
 
-            if intscore % 300 == 0 and intscore < 2400:
-                multiplier += 0.5
-                cmshowfpsmultiplier = cmshowfpsmultiplier_temp * multiplier
-            elif intscore == 5000:
-                win =True
+            if endless == False:
+                if intscore % 300 == 0 and intscore < 3000:
+                    multiplier += 0.5
+                    cmshowfpsmultiplier = cmshowfpsmultiplier_temp * multiplier
+                elif intscore == 5000:
+                    win = True
+            elif endless == True:
+                if intscore % 300 == 0 and intscore < 5000:
+                    multiplier += 0.5
+                    cmshowfpsmultiplier = cmshowfpsmultiplier_temp * multiplier
 
                 
             #debugging
