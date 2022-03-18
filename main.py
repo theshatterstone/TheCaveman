@@ -129,6 +129,8 @@ bottom = BottomRock(botrand, 290)
 slip = SlipFloor(sliprand, 351)
 num = random.randint(1,100)
 clock = pygame.time.Clock()
+cmshowfpsmultiplier = 20
+cmshowfpsmultiplier_temp = cmshowfpsmultiplier 
 isTop = False
 isBot = False
 isSlip = False 
@@ -168,7 +170,7 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
             screen.blit(caveman2, (-30, 225))
         else:
             screen.blit(caveman2, (-30,230))
-
+# Test
     if (num % 90 == 0 or isTop) and isBot == False and isSlip == False:
         if top.x > -55:
             TopRock.show(top,screen)
@@ -302,7 +304,8 @@ while run:
                 slipoffset = (stache.x - slip.x), (stache.y - slip.y)
                 if slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == False:
                     Cavemanshow = True
-                elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > 120:
+                    print('cmshow now is true')
+                elif slip.mask.overlap(stache.mask, slipoffset) and Cavemanshow == True and CMshowFPS > cmshowfpsmultiplier:
                     lose = True
                 if Cavemanshow == True:
                     if CMshowFPS < 900:
@@ -313,6 +316,7 @@ while run:
 
             if intscore % 300 == 0 and intscore < 2400:
                 multiplier += 0.5
+                cmshowfpsmultiplier = cmshowfpsmultiplier_temp * multiplier
             elif intscore == 5000:
                 win =True
 
@@ -321,9 +325,9 @@ while run:
             '''print(f'num = {num}')
             print(f'isTop = {isTop}')
             print(f'isBot = {isBot}')
-            print(f'isSlip = {isSlip}')
+            print(f'isSlip = {isSlip}')'''
             print(f'Cavemanshow = {Cavemanshow}')
-            print(f'CMshowFPS = {CMshowFPS}')'''
+            print(f'CMshowFPS = {CMshowFPS}')
 
             cavemanCount += 1
         elif win == True:
@@ -333,6 +337,7 @@ while run:
             isSlip = False 
             isjump = False
             Cavemanshow = False
+            CMshowFPS = 0
             multiplier = 5
             top.x = toprand
             bottom.x = botrand
@@ -350,6 +355,7 @@ while run:
             isSlip = False 
             isjump = False
             Cavemanshow = False
+            CMshowFPS = 0
             multiplier = 5
             top.x = toprand
             bottom.x = botrand
