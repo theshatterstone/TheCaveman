@@ -1,4 +1,3 @@
-from pickle import FALSE
 import random
 import time
 #setting up pygame
@@ -143,7 +142,6 @@ Cavemanshow = False
 startgame = False
 multiplier = 5
 d_dev = False
-e_dev = False
 v_dev = False
 
 #delaying function
@@ -253,11 +251,9 @@ while run:
             startgame = True
         if keys[pygame.K_d]:
             d_dev = True
-        if keys[pygame.K_e]:
-            e_dev = True
         if keys[pygame.K_v]:
             v_dev = True
-        if d_dev == True and e_dev == True and v_dev == True:
+        if d_dev == True and v_dev == True:
             startgame = True
             win = True
             intscore = 5001
