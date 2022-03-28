@@ -319,7 +319,7 @@ while run:
                         Cavemanshow = False
 
             if endless == False:
-                if intscore % 300 == 0 and intscore < 3000:
+                if intscore % 300 == 0 and intscore < 3001:
                     multiplier += 0.5
                     cmshowfpsmultiplier = cmshowfpsmultiplier_temp * multiplier
                 elif intscore == 5000:
@@ -334,9 +334,9 @@ while run:
             '''print(f'num = {num}')
             print(f'isTop = {isTop}')
             print(f'isBot = {isBot}')
-            print(f'isSlip = {isSlip}')'''
+            print(f'isSlip = {isSlip}')
             print(f'Cavemanshow = {Cavemanshow}')
-            print(f'CMshowFPS = {CMshowFPS}')
+            print(f'CMshowFPS = {CMshowFPS}')'''
 
             cavemanCount += 1
         elif win == True:
@@ -351,7 +351,7 @@ while run:
             top.x = toprand
             bottom.x = botrand
             slip.x = sliprand
-            if keys[pygame.K_SPACE]:
+            if keys[pygame.K_r]:
                 print('space working')
                 win = False
                 intscore = 0
@@ -369,7 +369,7 @@ while run:
             top.x = toprand
             bottom.x = botrand
             slip.x = sliprand
-            if keys[pygame.K_SPACE]:
+            if keys[pygame.K_r]:
                 print('space working')
                 lose = False
                 intscore = 0
