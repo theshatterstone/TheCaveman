@@ -153,9 +153,9 @@ def delay(multiplier):
 def start():
     screen.blit(bg_img, (0,0))
     screen.blit(screentitle, (308,150))
-    startText = pixelfont_small.render('Press Space to Start',1, (0,0,0))
+    startText = pixelfont_small.render('Press R to Start',1, (0,0,0))
     startText_endless = pixelfont_small.render('Press E for Endless Mode',1, (0,0,0))
-    screen.blit(startText,(250,200))
+    screen.blit(startText,(280,200))
     screen.blit(startText_endless,(220,230))
     
         
@@ -219,8 +219,8 @@ def mainGame(num,localstache,CMcount,localtop,localbottom,localslip,isTop,isBot,
 def gamelose():
         screen.blit(bg_img, (0,0))
         screen.blit(losetitle,(340,190))
-        space = pixelfont_small.render('Press Space to Restart',1,(0,0,0))
-        screen.blit(space,(235,220))
+        space = pixelfont_small.render('Press R to Restart',1,(0,0,0))
+        screen.blit(space,(270,220))
         finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
         screen.blit(finalscore,((screen_width - score.get_width() - 200), 15))
         pygame.display.update()
@@ -228,8 +228,8 @@ def gamelose():
 def gamewin():
     screen.blit(bg_img, (0,0))
     screen.blit(wintitle,(340,190))
-    space = pixelfont_small.render('Press Space to Restart',1,(0,0,0))
-    screen.blit(space,(235,220))
+    space = pixelfont_small.render('Press R to Restart',1,(0,0,0))
+    screen.blit(space,(270,220))
     finalscore = pixelfont.render(f'Final score: {intscore}',1,(255,255,255))
     screen.blit(finalscore,((screen_width - score.get_width() - 200), 15))
     pygame.display.update()
@@ -246,7 +246,7 @@ while run:
             print('endless mode')
             endless = True
             startgame = True
-        if keys[pygame.K_SPACE] ==  True:
+        if keys[pygame.K_r] ==  True:
             print("Test")
             startgame = True
         if keys[pygame.K_d]:
@@ -352,7 +352,7 @@ while run:
             bottom.x = botrand
             slip.x = sliprand
             if keys[pygame.K_r]:
-                print('space working')
+                print('restart working')
                 win = False
                 intscore = 0
             else: 
@@ -370,7 +370,7 @@ while run:
             bottom.x = botrand
             slip.x = sliprand
             if keys[pygame.K_r]:
-                print('space working')
+                print('restart working')
                 lose = False
                 intscore = 0
             else: 
